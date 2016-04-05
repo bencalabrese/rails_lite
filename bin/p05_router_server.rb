@@ -2,6 +2,7 @@ require 'rack'
 require_relative '../lib/controller_base'
 require_relative '../lib/router'
 
+$counter = 0
 
 $cats = [
   { id: 1, name: "Curie" },
@@ -24,15 +25,25 @@ class StatusesController < ControllerBase
   end
 end
 
-class Cats2Controller < ControllerBase
+class CatsController < ControllerBase
   def index
-    render_content($cats.to_json, "application/json")
+    if $counter == 0
+      flash[:errors] = ["Testing flash messages"]
+      session[:test_token] = "session_test"
+    end
+    
+    $counter += 1
+    # render_content($cats.to_json, "application/json")
+    @cats = $cats
+    @counter = $counter
+
+    render :index
   end
 end
 
 router = Router.new
 router.draw do
-  get Regexp.new("^/cats$"), Cats2Controller, :index
+  get Regexp.new("^/cats$"), CatsController, :index
   get Regexp.new("^/cats/(?<cat_id>\\d+)/statuses$"), StatusesController, :index
 end
 

@@ -3,6 +3,7 @@ require 'active_support/core_ext'
 require 'active_support/inflector'
 require 'erb'
 require_relative './session'
+require_relative './flash'
 
 class ControllerBase
   attr_reader :req, :res, :params
@@ -27,6 +28,7 @@ class ControllerBase
     res.status = 302
 
     session.store_session(res)
+    flash.store_flash(res)
     @already_built_response = true
   end
 
@@ -40,6 +42,7 @@ class ControllerBase
     res['Content-Type'] = content_type
 
     session.store_session(res)
+    flash.store_flash(res)
     @already_built_response = true
   end
 
@@ -64,5 +67,9 @@ class ControllerBase
   def invoke_action(name)
     send(name)
     render(name) unless already_built_response?
+  end
+
+  def flash
+    @flash ||= Flash.new(req)
   end
 end

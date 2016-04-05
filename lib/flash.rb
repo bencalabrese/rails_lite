@@ -4,7 +4,7 @@ class Flash
   # find the cookie for this app
   # deserialize the cookie into a hash
   attr_reader :now
-  
+
   def initialize(req)
     cookie = req.cookies["_rails_lite_app_flash"]
 

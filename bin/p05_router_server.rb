@@ -1,4 +1,6 @@
 require 'rack'
+require 'byebug'
+
 require_relative '../lib/controller_base'
 require_relative '../lib/router'
 
@@ -28,10 +30,11 @@ end
 class CatsController < ControllerBase
   def index
     if $counter == 0
-      flash[:errors] = ["Testing flash messages"]
-      session[:test_token] = "session_test"
+      flash["errors"] = ["Testing flash messages"]
+      flash.now["now_errors"] = ["testing now error"]
+      session["test_token"] = "session_test"
     end
-    
+
     $counter += 1
     # render_content($cats.to_json, "application/json")
     @cats = $cats

@@ -1,5 +1,26 @@
-<p>test</p>
+<h1>500 Server Error</h1>
 
+<h4>Message</h4>
 <p>
-  <%= @error %>
+  <%= @error.message %>
 </p>
+
+<h4>Error Location</h4>
+<p>
+  <%= @error.message %>
+</p>
+
+<h4>Stack Trace</h4>
+<p>
+  <%= @error.backtrace.join("\n") %>
+</p>
+
+
+def surrounding_lines(backtrace)
+  arr = backtrace.first.split(":")
+
+  file_name = arr[0]
+  line_number = arr[1].to_i
+
+  File.readlines(file_name)[(line_number - 5)..(line_number + 5)]
+end

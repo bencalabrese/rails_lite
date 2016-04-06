@@ -1,0 +1,16 @@
+<h1>500 Server Error</h1>
+
+<h4>Message</h4>
+<p>
+  <%= @error.message %>
+</p>
+
+<h4>Error Location</h4>
+<pre>
+  <%= @surrounding_lines.join("") %>
+</pre>
+
+<h4>Stack Trace</h4>
+<pre>
+<%=@error.backtrace.join("\n") %>
+</pre>
